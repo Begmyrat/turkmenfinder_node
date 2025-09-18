@@ -18,6 +18,7 @@ const chats_module_1 = require("./chats/chats.module");
 const notifications_module_1 = require("./notifications/notifications.module");
 const agreements_module_1 = require("./agreements/agreements.module");
 const uploads_module_1 = require("./uploads/uploads.module");
+const prisma_module_1 = require("./prisma/prisma.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -34,6 +35,7 @@ exports.AppModule = AppModule = __decorate([
             notifications_module_1.NotificationsModule,
             agreements_module_1.AgreementsModule,
             uploads_module_1.UploadsModule,
+            prisma_module_1.PrismaModule,
         ],
         controllers: [],
         providers: [],

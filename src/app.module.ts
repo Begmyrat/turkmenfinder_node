@@ -9,6 +9,7 @@ import { ChatsModule } from './chats/chats.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { AgreementsModule } from './agreements/agreements.module';
 import { UploadsModule } from './uploads/uploads.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { UploadsModule } from './uploads/uploads.module';
     NotificationsModule,
     AgreementsModule,
     UploadsModule,
+    PrismaModule,
   ],
   controllers: [],
   providers: [],
