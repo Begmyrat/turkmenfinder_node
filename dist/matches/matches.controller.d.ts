@@ -16,8 +16,8 @@ export declare class MatchesController {
         } | null;
     } & {
         id: string;
+        createdAt: Date;
         userAId: string;
         userBId: string;
-        createdAt: Date;
     })[]>;
 }

@@ -5,9 +5,9 @@ export declare class AgreementsService {
     constructor(prisma: PrismaService);
     create(dto: CreateAgreementDto): import("@prisma/client").Prisma.Prisma__AgreementClient<{
         id: string;
-        version: string;
-        content: string;
         createdAt: Date;
+        content: string;
+        version: string;
     }, never, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     findAll(): import("@prisma/client").Prisma.PrismaPromise<({
         acceptances: {
@@ -18,9 +18,9 @@ export declare class AgreementsService {
         }[];
     } & {
         id: string;
-        version: string;
-        content: string;
         createdAt: Date;
+        content: string;
+        version: string;
     })[]>;
     findOne(id: string): import("@prisma/client").Prisma.Prisma__AgreementClient<({
         acceptances: {
@@ -31,8 +31,8 @@ export declare class AgreementsService {
         }[];
     } & {
         id: string;
-        version: string;
-        content: string;
         createdAt: Date;
+        content: string;
+        version: string;
     }) | null, null, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
 }

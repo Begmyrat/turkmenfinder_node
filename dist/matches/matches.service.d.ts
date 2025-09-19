@@ -16,8 +16,8 @@ export declare class MatchesService {
         } | null;
     } & {
         id: string;
+        createdAt: Date;
         userAId: string;
         userBId: string;
-        createdAt: Date;
     })[]>;
 }

@@ -16,6 +16,7 @@ export declare class ChatsService {
         }[];
     } & {
         id: string;
+        createdAt: Date;
         matchId: string | null;
         participantAId: string;
         participantBId: string;
@@ -23,7 +24,6 @@ export declare class ChatsService {
         lastMessageAt: Date | null;
         unreadCountA: number;
         unreadCountB: number;
-        createdAt: Date;
     })[]>;
     findMessages(threadId: string): import("@prisma/client").Prisma.PrismaPromise<{
         id: string;

@@ -71,6 +71,28 @@ let UsersService = class UsersService {
             },
         });
     }
+    async discoverUsers({ currentUserId, gender, page = 1, limit = 20, }) {
+        const offset = (page - 1) * limit;
+        return this.prisma.user.findMany({
+            where: {
+                id: { not: currentUserId },
+                isActive: true,
+                profile: {
+                    gender: gender ? gender : undefined,
+                    lat: { not: null },
+                    lon: { not: null },
+                },
+            },
+            include: {
+                profile: true,
+                photos: true,
+                interests: { include: { interest: true } },
+            },
+            skip: offset,
+            take: limit,
+            orderBy: { createdAt: 'desc' },
+        });
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([

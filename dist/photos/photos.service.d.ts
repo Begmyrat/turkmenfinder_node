@@ -4,9 +4,9 @@ export declare class PhotosService {
     constructor(prisma: PrismaService);
     findForUser(userId: string): import("@prisma/client").Prisma.PrismaPromise<{
         id: string;
+        createdAt: Date;
         userId: string;
         s3Key: string;
         ordering: number;
-        createdAt: Date;
     }[]>;
 }

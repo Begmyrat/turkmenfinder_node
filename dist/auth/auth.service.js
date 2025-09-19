@@ -54,6 +54,19 @@ let AuthService = class AuthService {
         this.usersService = usersService;
         this.jwtService = jwtService;
     }
+    async validateUser(email, password) {
+        const user = await this.usersService.findByEmail(email);
+        if (!user || !user.passwordHash)
+            throw new common_1.BadRequestException('User not found');
+        const isMatch = await argon2.verify(password, user.passwordHash);
+        if (!isMatch) {
+            throw new common_1.BadRequestException('Password does not match');
+        }
+        return user;
+    }
+    async validateUserById(userId) {
+        return await this.usersService.findById(userId);
+    }
     async signUp(dto) {
         const existing = await this.usersService.findByEmail(dto.email);
         if (existing)

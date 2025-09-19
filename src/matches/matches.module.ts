@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MatchesController } from './matches.controller';
-import { ChatsService } from 'src/chats/chats.service';
+import { MatchesService } from './matches.service';
 
 @Module({
   controllers: [MatchesController],
-  providers: [ChatsService],
-  exports: [ChatsService],
+  providers: [MatchesService],
+  exports: [MatchesService],
 })
 export class MatchesModule {}

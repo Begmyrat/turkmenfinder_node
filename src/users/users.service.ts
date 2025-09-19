@@ -81,4 +81,48 @@ export class UsersService {
       },
     });
   }
+
+  async discoverUsers({
+    currentUserId,
+    gender,
+    // lat,
+    // lon,
+    // radius = 50, // kilometers
+    page = 1,
+    limit = 20,
+  }: {
+    currentUserId: string;
+    gender?: string;
+    lat: number;
+    lon: number;
+    radius?: number;
+    page?: number;
+    limit?: number;
+  }) {
+    // Haversine formula for distance in SQL (PostgreSQL)
+    // For production, consider PostGIS for true geospatial queries!
+    // const earthRadiusKm = 6371;
+    const offset = (page - 1) * limit;
+
+    return this.prisma.user.findMany({
+      where: {
+        id: { not: currentUserId },
+        isActive: true,
+        profile: {
+          gender: gender ? gender : undefined,
+          lat: { not: null },
+          lon: { not: null },
+        },
+        // Add more filters as needed (e.g., exclude already swiped/matched users)
+      },
+      include: {
+        profile: true,
+        photos: true,
+        interests: { include: { interest: true } },
+      },
+      skip: offset,
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+    });
+  }
 }
