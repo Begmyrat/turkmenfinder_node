@@ -6,9 +6,9 @@ export declare class AuthController {
     signUp(dto: SignUpDto): Promise<{
         token: string;
         user: {
-            id: string;
-            username: string;
             email: string | null;
+            username: string;
+            id: string;
             passwordHash: string | null;
             isActive: boolean;
             isVerified: boolean;
@@ -20,9 +20,9 @@ export declare class AuthController {
     signIn(dto: SignInDto): Promise<{
         token: string;
         user: {
-            id: string;
-            username: string;
             email: string | null;
+            username: string;
+            id: string;
             passwordHash: string | null;
             isActive: boolean;
             isVerified: boolean;
