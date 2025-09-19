@@ -11,7 +11,7 @@ const common_1 = require("@nestjs/common");
 const auth_module_1 = require("./auth/auth.module");
 const users_module_1 = require("./users/users.module");
 const profiles_module_1 = require("./profiles/profiles.module");
-const user_photo_module_1 = require("./photos/user-photo.module");
+const photos_module_1 = require("./photos/photos.module");
 const interests_module_1 = require("./interests/interests.module");
 const matches_module_1 = require("./matches/matches.module");
 const chats_module_1 = require("./chats/chats.module");
@@ -28,7 +28,7 @@ exports.AppModule = AppModule = __decorate([
             auth_module_1.AuthModule,
             users_module_1.UsersModule,
             profiles_module_1.ProfilesModule,
-            user_photo_module_1.PhotosModule,
+            photos_module_1.PhotosModule,
             interests_module_1.InterestsModule,
             matches_module_1.MatchesModule,
             chats_module_1.ChatsModule,

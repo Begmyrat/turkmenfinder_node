@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ProfilesModule } from './profiles/profiles.module';
-import { PhotosModule } from './photos/user-photo.module';
+import { PhotosModule } from './photos/photos.module';
 import { InterestsModule } from './interests/interests.module';
 import { MatchesModule } from './matches/matches.module';
 import { ChatsModule } from './chats/chats.module';
