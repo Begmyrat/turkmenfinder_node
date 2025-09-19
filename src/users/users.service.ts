@@ -14,7 +14,6 @@ export class UsersService {
   }
 
   async createUserWithProfile(data: SignUpDto): Promise<User | null> {
-    // Assumes data contains all necessary fields for User and Profile
     const {
       username,
       email,
@@ -33,7 +32,6 @@ export class UsersService {
       photos,
     } = data;
 
-    // Create user, profile, interests, and photos in a transaction
     return this.prisma.user.create({
       data: {
         username,

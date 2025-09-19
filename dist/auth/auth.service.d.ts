@@ -8,9 +8,9 @@ export declare class AuthService {
     signUp(dto: SignUpDto): Promise<{
         token: string;
         user: {
-            email: string | null;
-            username: string;
             id: string;
+            username: string;
+            email: string | null;
             passwordHash: string | null;
             isActive: boolean;
             isVerified: boolean;
@@ -22,9 +22,9 @@ export declare class AuthService {
     signIn(dto: SignInDto): Promise<{
         token: string;
         user: {
-            email: string | null;
-            username: string;
             id: string;
+            username: string;
+            email: string | null;
             passwordHash: string | null;
             isActive: boolean;
             isVerified: boolean;
