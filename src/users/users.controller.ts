@@ -1,10 +1,18 @@
-import { Controller, Get, Query, Req } from '@nestjs/common';
+import { Controller, Get, Query, Req, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseGuards(AuthGuard('jwt'))
+  @Get('me')
+  getMe() {
+    return 'your data';
+  }
+
+  @UseGuards(AuthGuard('jwt'))
   @Get('discover')
   async discover(
     @Req() req: { user?: { id?: string } },

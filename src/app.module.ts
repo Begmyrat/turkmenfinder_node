@@ -10,6 +10,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { AgreementsModule } from './agreements/agreements.module';
 import { UploadsModule } from './uploads/uploads.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -24,6 +25,9 @@ import { PrismaModule } from './prisma/prisma.module';
     AgreementsModule,
     UploadsModule,
     PrismaModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
   ],
   controllers: [],
   providers: [],

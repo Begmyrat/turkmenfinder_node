@@ -47,12 +47,15 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const users_service_1 = require("../users/users.service");
 const argon2 = __importStar(require("argon2"));
+const config_1 = require("@nestjs/config");
 let AuthService = class AuthService {
     usersService;
     jwtService;
-    constructor(usersService, jwtService) {
+    config;
+    constructor(usersService, jwtService, config) {
         this.usersService = usersService;
         this.jwtService = jwtService;
+        this.config = config;
     }
     async validateUser(email, password) {
         const user = await this.usersService.findByEmail(email);
@@ -79,8 +82,10 @@ let AuthService = class AuthService {
         if (!user) {
             throw new common_1.BadRequestException('User creation failed');
         }
-        const token = this.jwtService.sign({ userId: user.id });
-        return { token, user };
+        else if (!user.id || !user.email) {
+            throw new common_1.UnauthorizedException('Invalid user data');
+        }
+        return this.signToken(user.id, user.email);
     }
     async signIn(dto) {
         const user = await this.usersService.findByEmail(dto.email);
@@ -89,14 +94,31 @@ let AuthService = class AuthService {
         const valid = await argon2.verify(user.passwordHash, dto.password);
         if (!valid)
             throw new common_1.UnauthorizedException('Invalid credentials');
-        const token = this.jwtService.sign({ userId: user.id });
-        return { token, user };
+        if (!user.id || !user.email) {
+            throw new common_1.UnauthorizedException('Invalid user data');
+        }
+        return this.signToken(user.id, user.email);
+    }
+    async signToken(userId, email) {
+        const payload = {
+            sub: userId,
+            email,
+        };
+        const secret = this.config.get('JWT-SECRET');
+        const token = await this.jwtService.signAsync(payload, {
+            expiresIn: '15m',
+            secret: secret,
+        });
+        return {
+            access_token: token,
+        };
     }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [users_service_1.UsersService,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        config_1.ConfigService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

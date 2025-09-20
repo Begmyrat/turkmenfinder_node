@@ -2,11 +2,33 @@ import { UsersService } from './users.service';
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
+    getMe(): string;
     discover(req: {
         user?: {
             id?: string;
         };
     }, lat: string, lon: string, gender?: string, radius?: string, page?: string, limit?: string): Promise<({
+        profile: {
+            id: string;
+            userId: string;
+            avatarPhotoId: string | null;
+            gender: string | null;
+            bio: string | null;
+            city: string | null;
+            country: string | null;
+            lat: number | null;
+            lon: number | null;
+            university: string | null;
+            degree: string | null;
+            major: string | null;
+        } | null;
+        photos: {
+            id: string;
+            createdAt: Date;
+            userId: string;
+            s3Key: string;
+            ordering: number;
+        }[];
         interests: ({
             interest: {
                 id: string;
@@ -16,31 +38,10 @@ export declare class UsersController {
             userId: string;
             interestId: string;
         })[];
-        photos: {
-            id: string;
-            createdAt: Date;
-            userId: string;
-            s3Key: string;
-            ordering: number;
-        }[];
-        profile: {
-            gender: string | null;
-            lat: number | null;
-            lon: number | null;
-            city: string | null;
-            country: string | null;
-            bio: string | null;
-            university: string | null;
-            degree: string | null;
-            major: string | null;
-            id: string;
-            userId: string;
-            avatarPhotoId: string | null;
-        } | null;
     } & {
-        email: string | null;
-        username: string;
         id: string;
+        username: string;
+        email: string | null;
         passwordHash: string | null;
         isActive: boolean;
         isVerified: boolean;

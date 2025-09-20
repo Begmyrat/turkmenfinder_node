@@ -15,10 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
+const passport_1 = require("@nestjs/passport");
 let UsersController = class UsersController {
     usersService;
     constructor(usersService) {
         this.usersService = usersService;
+    }
+    getMe() {
+        return 'your data';
     }
     async discover(req, lat, lon, gender, radius, page, limit) {
         const currentUserId = req.user?.id ?? 'CURRENT_USER_ID';
@@ -35,6 +39,14 @@ let UsersController = class UsersController {
 };
 exports.UsersController = UsersController;
 __decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    (0, common_1.Get)('me'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "getMe", null);
+__decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.Get)('discover'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('lat')),

@@ -13,7 +13,7 @@ export declare class ProfilesController {
         degree: string | null;
         major: string | null;
         id: string;
-        userId: string;
         avatarPhotoId: string | null;
+        userId: string;
     } | null, null, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
 }

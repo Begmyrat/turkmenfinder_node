@@ -7,12 +7,14 @@ import { SignUpDto, SignInDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import * as argon2 from 'argon2';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly config: ConfigService,
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -44,11 +46,11 @@ export class AuthService {
 
     if (!user) {
       throw new BadRequestException('User creation failed');
+    } else if (!user.id || !user.email) {
+      throw new UnauthorizedException('Invalid user data');
     }
 
-    // Generate JWT
-    const token = this.jwtService.sign({ userId: user.id });
-    return { token, user };
+    return this.signToken(user.id, user.email);
   }
 
   async signIn(dto: SignInDto) {
@@ -59,7 +61,28 @@ export class AuthService {
     const valid = await argon2.verify(user.passwordHash, dto.password);
     if (!valid) throw new UnauthorizedException('Invalid credentials');
 
-    const token = this.jwtService.sign({ userId: user.id });
-    return { token, user };
+    if (!user.id || !user.email) {
+      throw new UnauthorizedException('Invalid user data');
+    }
+    return this.signToken(user.id, user.email);
+  }
+
+  async signToken(
+    userId: string,
+    email: string,
+  ): Promise<{ access_token: string }> {
+    const payload = {
+      sub: userId,
+      email,
+    };
+    const secret = this.config.get<string>('JWT-SECRET');
+    const token = await this.jwtService.signAsync(payload, {
+      expiresIn: '15m',
+      secret: secret,
+    });
+
+    return {
+      access_token: token,
+    };
   }
 }

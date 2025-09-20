@@ -18,19 +18,19 @@ export declare class UsersService {
     }): Promise<({
         interests: ({
             interest: {
-                id: string;
                 name: string;
+                id: string;
             };
         } & {
-            userId: string;
             interestId: string;
+            userId: string;
         })[];
         photos: {
             id: string;
             createdAt: Date;
-            userId: string;
             s3Key: string;
             ordering: number;
+            userId: string;
         }[];
         profile: {
             gender: string | null;
@@ -43,8 +43,8 @@ export declare class UsersService {
             degree: string | null;
             major: string | null;
             id: string;
-            userId: string;
             avatarPhotoId: string | null;
+            userId: string;
         } | null;
     } & {
         email: string | null;

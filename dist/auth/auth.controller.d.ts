@@ -4,31 +4,9 @@ export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
     signUp(dto: SignUpDto): Promise<{
-        token: string;
-        user: {
-            email: string | null;
-            username: string;
-            id: string;
-            passwordHash: string | null;
-            isActive: boolean;
-            isVerified: boolean;
-            createdAt: Date;
-            updatedAt: Date;
-            deletedAt: Date | null;
-        };
+        access_token: string;
     }>;
     signIn(dto: SignInDto): Promise<{
-        token: string;
-        user: {
-            email: string | null;
-            username: string;
-            id: string;
-            passwordHash: string | null;
-            isActive: boolean;
-            isVerified: boolean;
-            createdAt: Date;
-            updatedAt: Date;
-            deletedAt: Date | null;
-        };
+        access_token: string;
     }>;
 }
