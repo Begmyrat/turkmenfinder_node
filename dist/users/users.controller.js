@@ -21,8 +21,8 @@ let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    getMe() {
-        return 'your data';
+    getMe(req) {
+        return req.user;
     }
     async discover(req, lat, lon, gender, radius, page, limit) {
         const currentUserId = req.user?.id ?? 'CURRENT_USER_ID';
@@ -41,8 +41,9 @@ exports.UsersController = UsersController;
 __decorate([
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.Get)('me'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getMe", null);
 __decorate([

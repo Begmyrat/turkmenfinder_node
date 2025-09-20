@@ -1,8 +1,9 @@
 import { UsersService } from './users.service';
+import type { Request } from 'express';
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
-    getMe(): string;
+    getMe(req: Request): Express.User | undefined;
     discover(req: {
         user?: {
             id?: string;

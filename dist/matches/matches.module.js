@@ -10,6 +10,7 @@ exports.MatchesModule = void 0;
 const common_1 = require("@nestjs/common");
 const matches_controller_1 = require("./matches.controller");
 const matches_service_1 = require("./matches.service");
+const notifications_module_1 = require("../notifications/notifications.module");
 let MatchesModule = class MatchesModule {
 };
 exports.MatchesModule = MatchesModule;
@@ -18,6 +19,7 @@ exports.MatchesModule = MatchesModule = __decorate([
         controllers: [matches_controller_1.MatchesController],
         providers: [matches_service_1.MatchesService],
         exports: [matches_service_1.MatchesService],
+        imports: [notifications_module_1.NotificationsModule],
     })
 ], MatchesModule);
 //# sourceMappingURL=matches.module.js.map

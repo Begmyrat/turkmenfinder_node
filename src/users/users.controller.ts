@@ -1,6 +1,7 @@
 import { Controller, Get, Query, Req, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
+import type { Request } from 'express';
 
 @Controller('users')
 export class UsersController {
@@ -8,8 +9,8 @@ export class UsersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
-  getMe() {
-    return 'your data';
+  getMe(@Req() req: Request) {
+    return req.user;
   }
 
   @UseGuards(AuthGuard('jwt'))

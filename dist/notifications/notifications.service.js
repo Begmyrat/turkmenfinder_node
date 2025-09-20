@@ -17,6 +17,15 @@ let NotificationsService = class NotificationsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
+    async create({ userId, type, payload, }) {
+        return this.prisma.notification.create({
+            data: {
+                userId,
+                type,
+                payload,
+            },
+        });
+    }
     findForUser(userId) {
         return this.prisma.notification.findMany({ where: { userId } });
     }
