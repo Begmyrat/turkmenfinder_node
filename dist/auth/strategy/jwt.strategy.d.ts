@@ -5,12 +5,6 @@ declare const JwtStrategy_base: new (...args: [opt: import("passport-jwt").Strat
 };
 export declare class JwtStrategy extends JwtStrategy_base {
     constructor(config: ConfigService);
-    validate(payload: {
-        sub: string;
-        username: string;
-    }): {
-        userId: string;
-        username: string;
-    };
+    validate(payload: any): any;
 }
 export {};
