@@ -16,6 +16,7 @@ exports.InterestsController = void 0;
 const common_1 = require("@nestjs/common");
 const interests_service_1 = require("./interests.service");
 const dto_1 = require("./dto");
+const passport_1 = require("@nestjs/passport");
 let InterestsController = class InterestsController {
     interestsService;
     constructor(interestsService) {
@@ -59,6 +60,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], InterestsController.prototype, "findOne", null);
 __decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -67,6 +69,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], InterestsController.prototype, "update", null);
 __decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

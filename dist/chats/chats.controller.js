@@ -16,6 +16,7 @@ exports.ChatsController = void 0;
 const common_1 = require("@nestjs/common");
 const chats_service_1 = require("./chats.service");
 const dto_1 = require("./dto");
+const passport_1 = require("@nestjs/passport");
 let ChatsController = class ChatsController {
     service;
     constructor(service) {
@@ -33,6 +34,7 @@ let ChatsController = class ChatsController {
 };
 exports.ChatsController = ChatsController;
 __decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.Get)('threads/:userId'),
     __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
@@ -40,6 +42,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ChatsController.prototype, "findThreads", null);
 __decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.Get)('messages/:threadId'),
     __param(0, (0, common_1.Param)('threadId')),
     __metadata("design:type", Function),
@@ -47,6 +50,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ChatsController.prototype, "findMessages", null);
 __decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.Post)('messages'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

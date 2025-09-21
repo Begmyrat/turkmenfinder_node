@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PhotosController = void 0;
 const common_1 = require("@nestjs/common");
 const photos_service_1 = require("./photos.service");
+const passport_1 = require("@nestjs/passport");
 let PhotosController = class PhotosController {
     service;
     constructor(service) {
@@ -26,6 +27,7 @@ let PhotosController = class PhotosController {
 };
 exports.PhotosController = PhotosController;
 __decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.Get)(':userId'),
     __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),

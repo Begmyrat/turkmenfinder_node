@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotificationsController = void 0;
 const common_1 = require("@nestjs/common");
 const notifications_service_1 = require("./notifications.service");
+const passport_1 = require("@nestjs/passport");
 let NotificationsController = class NotificationsController {
     service;
     constructor(service) {
@@ -26,6 +27,7 @@ let NotificationsController = class NotificationsController {
 };
 exports.NotificationsController = NotificationsController;
 __decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.Get)(':userId'),
     __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),

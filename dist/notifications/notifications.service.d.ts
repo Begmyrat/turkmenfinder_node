@@ -9,18 +9,18 @@ export declare class NotificationsService {
         payload: any;
     }): Promise<{
         id: string;
+        createdAt: Date;
+        userId: string;
         type: import("@prisma/client").$Enums.NotificationType;
         payload: import("@prisma/client/runtime/library").JsonValue;
         isRead: boolean;
-        createdAt: Date;
-        userId: string;
     }>;
     findForUser(userId: string): import("@prisma/client").Prisma.PrismaPromise<{
         id: string;
+        createdAt: Date;
+        userId: string;
         type: import("@prisma/client").$Enums.NotificationType;
         payload: import("@prisma/client/runtime/library").JsonValue;
         isRead: boolean;
-        createdAt: Date;
-        userId: string;
     }[]>;
 }
