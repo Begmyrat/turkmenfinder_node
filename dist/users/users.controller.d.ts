@@ -24,35 +24,35 @@ export declare class UsersController {
     }, lat: string, lon: string, gender?: string, radius?: string, page?: string, limit?: string): Promise<({
         profile: {
             id: string;
+            userId: string;
+            avatarPhotoId: string | null;
             gender: string | null;
+            gender_looking_for: string | null;
             bio: string | null;
+            city: string | null;
+            country: string | null;
             lat: number | null;
             lon: number | null;
             university: string | null;
             degree: string | null;
             major: string | null;
-            gender_looking_for: string | null;
-            city: string | null;
-            country: string | null;
             birthday: Date | null;
-            avatarPhotoId: string | null;
-            userId: string;
         } | null;
         photos: {
             id: string;
             createdAt: Date;
+            userId: string;
             s3Key: string;
             ordering: number;
-            userId: string;
         }[];
         interests: ({
             interest: {
-                name: string;
                 id: string;
+                name: string;
             };
         } & {
-            interestId: string;
             userId: string;
+            interestId: string;
         })[];
     } & {
         id: string;

@@ -19,12 +19,10 @@ export class UsersService {
       email,
       password,
       gender,
-      bio,
+      gender_looking_for,
+      birthday,
       lat,
       lon,
-      university,
-      degree,
-      major,
       interests,
       photos,
     } = data;
@@ -37,12 +35,10 @@ export class UsersService {
         profile: {
           create: {
             gender,
-            bio,
+            gender_looking_for,
+            birthday: birthday ? new Date(birthday) : null,
             lat,
             lon,
-            university,
-            degree,
-            major,
           },
         },
         interests: {

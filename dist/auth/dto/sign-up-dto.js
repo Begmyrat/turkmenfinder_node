@@ -23,6 +23,8 @@ class SignUpDto {
     password;
     avatar;
     gender;
+    gender_looking_for;
+    birthday;
     lat;
     lon;
     city;
@@ -57,6 +59,15 @@ __decorate([
     (0, class_validator_1.IsEnum)(Gender),
     __metadata("design:type", String)
 ], SignUpDto.prototype, "gender", void 0);
+__decorate([
+    (0, class_validator_1.IsEnum)(Gender),
+    __metadata("design:type", String)
+], SignUpDto.prototype, "gender_looking_for", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsDateString)(),
+    __metadata("design:type", String)
+], SignUpDto.prototype, "birthday", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)

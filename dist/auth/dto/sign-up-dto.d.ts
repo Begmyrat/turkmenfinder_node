@@ -9,6 +9,8 @@ export declare class SignUpDto {
     password: string;
     avatar?: string;
     gender: Gender;
+    gender_looking_for: Gender;
+    birthday?: string;
     lat: number;
     lon: number;
     city: string;

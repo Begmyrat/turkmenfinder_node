@@ -23,7 +23,7 @@ let UsersService = class UsersService {
         });
     }
     async createUserWithProfile(data) {
-        const { username, email, password, gender, bio, lat, lon, university, degree, major, interests, photos, } = data;
+        const { username, email, password, gender, gender_looking_for, birthday, lat, lon, interests, photos, } = data;
         return this.prisma.user.create({
             data: {
                 username,
@@ -32,12 +32,10 @@ let UsersService = class UsersService {
                 profile: {
                     create: {
                         gender,
-                        bio,
+                        gender_looking_for,
+                        birthday: birthday ? new Date(birthday) : null,
                         lat,
                         lon,
-                        university,
-                        degree,
-                        major,
                     },
                 },
                 interests: {

@@ -9,6 +9,7 @@ import {
   IsArray,
   ArrayMinSize,
   ArrayMaxSize,
+  IsDateString,
 } from 'class-validator';
 
 export enum Gender {
@@ -34,6 +35,13 @@ export class SignUpDto {
 
   @IsEnum(Gender)
   gender: Gender;
+
+  @IsEnum(Gender)
+  gender_looking_for: Gender;
+
+  @IsOptional()
+  @IsDateString()
+  birthday?: string;
 
   @IsNumber()
   lat: number;

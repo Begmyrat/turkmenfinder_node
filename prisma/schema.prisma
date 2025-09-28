@@ -55,7 +55,7 @@ model Profile {
   university     String?
   degree         String?
   major          String?
-  birthday          DateTime?
+  birthday       DateTime?
   avatarPhoto    UserPhoto? @relation("ProfileAvatarPhoto", fields: [avatarPhotoId], references: [id])
 
   @@index([lat, lon])
