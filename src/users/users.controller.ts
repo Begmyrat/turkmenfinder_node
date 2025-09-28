@@ -9,8 +9,12 @@ export class UsersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
-  getMe(@Req() req: Request) {
-    return req.user;
+  async getMe(@Req() req: { user?: { id?: string } }) {
+    const userId = req.user?.id;
+    if (!userId) {
+      throw new Error('User not authenticated');
+    }
+    return this.usersService.findById(userId);
   }
 
   @UseGuards(AuthGuard('jwt'))

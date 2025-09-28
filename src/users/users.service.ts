@@ -20,14 +20,11 @@ export class UsersService {
       password,
       gender,
       bio,
-      city,
-      country,
       lat,
       lon,
       university,
       degree,
       major,
-      //   avatar,
       interests,
       photos,
     } = data;
@@ -41,14 +38,11 @@ export class UsersService {
           create: {
             gender,
             bio,
-            city,
-            country,
             lat,
             lon,
             university,
             degree,
             major,
-            // avatarPhotoId will be set after photo creation if needed
           },
         },
         interests: {

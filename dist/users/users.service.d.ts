@@ -16,6 +16,29 @@ export declare class UsersService {
         page?: number;
         limit?: number;
     }): Promise<({
+        profile: {
+            id: string;
+            gender: string | null;
+            bio: string | null;
+            lat: number | null;
+            lon: number | null;
+            university: string | null;
+            degree: string | null;
+            major: string | null;
+            gender_looking_for: string | null;
+            city: string | null;
+            country: string | null;
+            birthday: Date | null;
+            avatarPhotoId: string | null;
+            userId: string;
+        } | null;
+        photos: {
+            id: string;
+            createdAt: Date;
+            s3Key: string;
+            ordering: number;
+            userId: string;
+        }[];
         interests: ({
             interest: {
                 name: string;
@@ -25,31 +48,10 @@ export declare class UsersService {
             interestId: string;
             userId: string;
         })[];
-        photos: {
-            id: string;
-            createdAt: Date;
-            s3Key: string;
-            ordering: number;
-            userId: string;
-        }[];
-        profile: {
-            gender: string | null;
-            lat: number | null;
-            lon: number | null;
-            city: string | null;
-            country: string | null;
-            bio: string | null;
-            university: string | null;
-            degree: string | null;
-            major: string | null;
-            id: string;
-            avatarPhotoId: string | null;
-            userId: string;
-        } | null;
     } & {
-        email: string | null;
-        username: string;
         id: string;
+        username: string;
+        email: string | null;
         passwordHash: string | null;
         isActive: boolean;
         isVerified: boolean;

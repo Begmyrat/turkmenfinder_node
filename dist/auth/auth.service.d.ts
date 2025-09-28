@@ -8,9 +8,9 @@ export declare class AuthService {
     private readonly config;
     constructor(usersService: UsersService, jwtService: JwtService, config: ConfigService);
     validateUser(email: string, password: string): Promise<{
-        email: string | null;
-        username: string;
         id: string;
+        username: string;
+        email: string | null;
         passwordHash: string | null;
         isActive: boolean;
         isVerified: boolean;
@@ -19,9 +19,9 @@ export declare class AuthService {
         deletedAt: Date | null;
     }>;
     validateUserById(userId: string): Promise<{
-        email: string | null;
-        username: string;
         id: string;
+        username: string;
+        email: string | null;
         passwordHash: string | null;
         isActive: boolean;
         isVerified: boolean;

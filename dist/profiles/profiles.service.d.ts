@@ -3,16 +3,18 @@ export declare class ProfilesService {
     private prisma;
     constructor(prisma: PrismaService);
     findByUserId(userId: string): import("@prisma/client").Prisma.Prisma__ProfileClient<{
+        id: string;
         gender: string | null;
+        bio: string | null;
         lat: number | null;
         lon: number | null;
-        city: string | null;
-        country: string | null;
-        bio: string | null;
         university: string | null;
         degree: string | null;
         major: string | null;
-        id: string;
+        gender_looking_for: string | null;
+        city: string | null;
+        country: string | null;
+        birthday: Date | null;
         avatarPhotoId: string | null;
         userId: string;
     } | null, null, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;

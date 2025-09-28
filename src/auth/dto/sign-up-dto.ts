@@ -41,11 +41,11 @@ export class SignUpDto {
   @IsNumber()
   lon: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   city: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   country: string;
 
@@ -54,7 +54,7 @@ export class SignUpDto {
   interests: string[];
 
   @IsArray()
-  @ArrayMinSize(3)
+  @ArrayMinSize(1)
   @ArrayMaxSize(6)
   @IsString({ each: true })
   photos: string[];

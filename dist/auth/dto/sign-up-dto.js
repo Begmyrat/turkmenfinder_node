@@ -66,12 +66,12 @@ __decorate([
     __metadata("design:type", Number)
 ], SignUpDto.prototype, "lon", void 0);
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], SignUpDto.prototype, "city", void 0);
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], SignUpDto.prototype, "country", void 0);
@@ -82,7 +82,7 @@ __decorate([
 ], SignUpDto.prototype, "interests", void 0);
 __decorate([
     (0, class_validator_1.IsArray)(),
-    (0, class_validator_1.ArrayMinSize)(3),
+    (0, class_validator_1.ArrayMinSize)(1),
     (0, class_validator_1.ArrayMaxSize)(6),
     (0, class_validator_1.IsString)({ each: true }),
     __metadata("design:type", Array)

@@ -46,6 +46,7 @@ model Profile {
   userId         String     @unique
   avatarPhotoId  String?    @unique
   gender         String?
+  gender_looking_for String?
   bio            String?
   city           String?
   country        String?
@@ -54,6 +55,7 @@ model Profile {
   university     String?
   degree         String?
   major          String?
+  birthday          DateTime?
   avatarPhoto    UserPhoto? @relation("ProfileAvatarPhoto", fields: [avatarPhotoId], references: [id])
 
   @@index([lat, lon])
