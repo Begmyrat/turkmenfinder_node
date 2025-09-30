@@ -1,4 +1,5 @@
 import { UsersService } from './users.service';
+import { EditProfileDto } from './dto/edit_profile_dto';
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
@@ -65,4 +66,19 @@ export declare class UsersController {
         updatedAt: Date;
         deletedAt: Date | null;
     })[]>;
+    editProfile(req: {
+        user?: {
+            id?: string;
+        };
+    }, dto: EditProfileDto): Promise<{
+        id: string;
+        username: string;
+        email: string | null;
+        passwordHash: string | null;
+        isActive: boolean;
+        isVerified: boolean;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+    } | null>;
 }

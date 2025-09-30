@@ -16,6 +16,7 @@ exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const passport_1 = require("@nestjs/passport");
+const edit_profile_dto_1 = require("./dto/edit_profile_dto");
 let UsersController = class UsersController {
     usersService;
     constructor(usersService) {
@@ -39,6 +40,14 @@ let UsersController = class UsersController {
             page: page ? parseInt(page) : 1,
             limit: limit ? parseInt(limit) : 20,
         });
+    }
+    async editProfile(req, dto) {
+        const userId = req.user?.id;
+        if (!userId) {
+            throw new Error('User not authenticated');
+        }
+        const updatedUser = await this.usersService.editUserProfile(userId, dto);
+        return updatedUser;
     }
 };
 exports.UsersController = UsersController;
@@ -64,6 +73,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, String, String, String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "discover", null);
+__decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    (0, common_1.Patch)('edit-profile'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, edit_profile_dto_1.EditProfileDto]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "editProfile", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

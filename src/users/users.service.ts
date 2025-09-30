@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from '@prisma/client';
 import { SignUpDto } from 'src/auth/dto';
+import { EditProfileDto } from './dto/edit_profile_dto';
 
 @Injectable()
 export class UsersService {
@@ -52,6 +53,24 @@ export class UsersService {
             ordering: idx,
           })),
         },
+        settings: {
+          create: {
+            pushNotifications: true,
+            newMatches: true,
+            messages: true,
+            superLikes: true,
+            locationServices: true,
+            showDistance: false,
+            distanceFiltering: false,
+            maxDistance: 50,
+            ageRangeStart: 18,
+            ageRangeEnd: 100,
+            darkMode: false,
+            discoverable: true,
+            showOnline: true,
+            language: 'en',
+          },
+        },
       },
       include: {
         profile: true,
@@ -74,7 +93,7 @@ export class UsersService {
 
   async discoverUsers({
     currentUserId,
-    gender,
+    // gender,
     // lat,
     // lon,
     // radius = 50, // kilometers
@@ -98,11 +117,11 @@ export class UsersService {
       where: {
         id: { not: currentUserId },
         isActive: true,
-        profile: {
-          gender: gender ? gender : undefined,
-          lat: { not: null },
-          lon: { not: null },
-        },
+        // profile: {
+        //   gender: gender ? gender : undefined,
+        //   lat: { not: null },
+        //   lon: { not: null },
+        // },
         // Add more filters as needed (e.g., exclude already swiped/matched users)
       },
       include: {
@@ -113,6 +132,62 @@ export class UsersService {
       skip: offset,
       take: limit,
       orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async editUserProfile(
+    userId: string,
+    dto: EditProfileDto,
+  ): Promise<User | null> {
+    const {
+      username,
+      bio,
+      gender,
+      gender_looking_for,
+      university,
+      major,
+      birthday,
+      interests,
+      photos,
+    } = dto;
+
+    return this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        username,
+        profile: {
+          update: {
+            bio,
+            gender,
+            gender_looking_for,
+            university,
+            major,
+            birthday: birthday ? new Date(birthday) : undefined,
+          },
+        },
+        interests: interests
+          ? {
+              deleteMany: {}, // Clear existing interests
+              create: interests.map((interestId: string) => ({
+                interest: { connect: { id: interestId } },
+              })),
+            }
+          : undefined,
+        photos: photos
+          ? {
+              deleteMany: {}, // Clear existing photos
+              create: photos.map((s3Key: string, idx: number) => ({
+                s3Key,
+                ordering: idx,
+              })),
+            }
+          : undefined,
+      },
+      include: {
+        profile: true,
+        interests: { include: { interest: true } },
+        photos: true,
+      },
     });
   }
 }

@@ -20,6 +20,7 @@ const agreements_module_1 = require("./agreements/agreements.module");
 const uploads_module_1 = require("./uploads/uploads.module");
 const prisma_module_1 = require("./prisma/prisma.module");
 const config_1 = require("@nestjs/config");
+const settings_module_1 = require("./settings/settings.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -40,6 +41,7 @@ exports.AppModule = AppModule = __decorate([
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
             }),
+            settings_module_1.SettingsModule,
         ],
         controllers: [],
         providers: [],

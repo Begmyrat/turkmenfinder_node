@@ -11,6 +11,7 @@ import { AgreementsModule } from './agreements/agreements.module';
 import { UploadsModule } from './uploads/uploads.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
+import { SettingsModule } from './settings/settings.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    SettingsModule,
   ],
   controllers: [],
   providers: [],

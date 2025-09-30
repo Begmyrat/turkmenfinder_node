@@ -1,7 +1,16 @@
-import { Controller, Get, Query, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import type { Request } from 'express';
+import { EditProfileDto } from './dto/edit_profile_dto';
 
 @Controller('users')
 export class UsersController {
@@ -38,5 +47,19 @@ export class UsersController {
       page: page ? parseInt(page) : 1,
       limit: limit ? parseInt(limit) : 20,
     });
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Patch('edit-profile')
+  async editProfile(
+    @Req() req: { user?: { id?: string } },
+    @Body() dto: EditProfileDto,
+  ) {
+    const userId = req.user?.id;
+    if (!userId) {
+      throw new Error('User not authenticated');
+    }
+    const updatedUser = await this.usersService.editUserProfile(userId, dto);
+    return updatedUser;
   }
 }

@@ -49,6 +49,24 @@ let UsersService = class UsersService {
                         ordering: idx,
                     })),
                 },
+                settings: {
+                    create: {
+                        pushNotifications: true,
+                        newMatches: true,
+                        messages: true,
+                        superLikes: true,
+                        locationServices: true,
+                        showDistance: false,
+                        distanceFiltering: false,
+                        maxDistance: 50,
+                        ageRangeStart: 18,
+                        ageRangeEnd: 100,
+                        darkMode: false,
+                        discoverable: true,
+                        showOnline: true,
+                        language: 'en',
+                    },
+                },
             },
             include: {
                 profile: true,
@@ -67,17 +85,12 @@ let UsersService = class UsersService {
             },
         });
     }
-    async discoverUsers({ currentUserId, gender, page = 1, limit = 20, }) {
+    async discoverUsers({ currentUserId, page = 1, limit = 20, }) {
         const offset = (page - 1) * limit;
         return this.prisma.user.findMany({
             where: {
                 id: { not: currentUserId },
                 isActive: true,
-                profile: {
-                    gender: gender ? gender : undefined,
-                    lat: { not: null },
-                    lon: { not: null },
-                },
             },
             include: {
                 profile: true,
@@ -87,6 +100,47 @@ let UsersService = class UsersService {
             skip: offset,
             take: limit,
             orderBy: { createdAt: 'desc' },
+        });
+    }
+    async editUserProfile(userId, dto) {
+        const { username, bio, gender, gender_looking_for, university, major, birthday, interests, photos, } = dto;
+        return this.prisma.user.update({
+            where: { id: userId },
+            data: {
+                username,
+                profile: {
+                    update: {
+                        bio,
+                        gender,
+                        gender_looking_for,
+                        university,
+                        major,
+                        birthday: birthday ? new Date(birthday) : undefined,
+                    },
+                },
+                interests: interests
+                    ? {
+                        deleteMany: {},
+                        create: interests.map((interestId) => ({
+                            interest: { connect: { id: interestId } },
+                        })),
+                    }
+                    : undefined,
+                photos: photos
+                    ? {
+                        deleteMany: {},
+                        create: photos.map((s3Key, idx) => ({
+                            s3Key,
+                            ordering: idx,
+                        })),
+                    }
+                    : undefined,
+            },
+            include: {
+                profile: true,
+                interests: { include: { interest: true } },
+                photos: true,
+            },
         });
     }
 };

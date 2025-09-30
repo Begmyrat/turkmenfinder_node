@@ -38,6 +38,7 @@ model User {
   notifications  Notification[]
   agreements     AgreementAcceptance[]
   refreshTokens  RefreshToken[]
+  settings       Settings?
 }
 
 model Profile {
@@ -199,4 +200,24 @@ model AgreementAcceptance {
   agreement        Agreement @relation(fields: [agreementId], references: [id], onDelete: Cascade)
   agreementId      String
   acceptedAt       DateTime @default(now())
+}
+
+model Settings {
+  id                String   @id @default(uuid())
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            String   @unique
+  pushNotifications Boolean  @default(true)
+  newMatches        Boolean  @default(true)
+  messages          Boolean  @default(true)
+  superLikes        Boolean  @default(false)
+  locationServices  Boolean  @default(true)
+  showDistance      Boolean  @default(true)
+  distanceFiltering Boolean  @default(false)
+  maxDistance       Int      @default(50)
+  ageRangeStart     Int      @default(18)
+  ageRangeEnd       Int      @default(35)
+  darkMode          Boolean  @default(false)
+  discoverable      Boolean  @default(true)
+  showOnline        Boolean  @default(true)
+  language          String   @default("en")
 }
