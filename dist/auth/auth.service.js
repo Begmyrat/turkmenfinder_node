@@ -111,6 +111,7 @@ let AuthService = class AuthService {
         });
         return {
             access_token: token,
+            user_id: userId,
         };
     }
 };

@@ -22,7 +22,10 @@ let ChatsController = class ChatsController {
     constructor(service) {
         this.service = service;
     }
-    findThreads(userId) {
+    findThreads(req) {
+        const userId = req.user?.id;
+        if (!userId)
+            throw new Error('User not authenticated');
         return this.service.findThreadsForUser(userId);
     }
     findMessages(threadId) {
@@ -35,10 +38,10 @@ let ChatsController = class ChatsController {
 exports.ChatsController = ChatsController;
 __decorate([
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
-    (0, common_1.Get)('threads/:userId'),
-    __param(0, (0, common_1.Param)('userId')),
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ChatsController.prototype, "findThreads", null);
 __decorate([

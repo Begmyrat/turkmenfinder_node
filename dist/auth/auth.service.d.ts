@@ -31,11 +31,14 @@ export declare class AuthService {
     } | null>;
     signUp(dto: SignUpDto): Promise<{
         access_token: string;
+        user_id: string;
     }>;
     signIn(dto: SignInDto): Promise<{
         access_token: string;
+        user_id: string;
     }>;
     signToken(userId: string, email: string): Promise<{
         access_token: string;
+        user_id: string;
     }>;
 }

@@ -10,10 +10,55 @@ export class MatchesService {
     private notificationsService: NotificationsService,
   ) {}
 
-  findMatchesForUser(userId: string) {
-    return this.prisma.match.findMany({
-      where: { OR: [{ userAId: userId }, { userBId: userId }] },
-      include: { chatThread: true },
+  async findMatchesForUser(userId: string) {
+    const matches = await this.prisma.match.findMany({
+      where: {
+        OR: [{ userAId: userId }, { userBId: userId }],
+      },
+      include: {
+        userA: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            profile: true,
+            interests: {
+              include: {
+                interest: true,
+              },
+            },
+          },
+        },
+        userB: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            profile: true,
+            interests: {
+              include: {
+                interest: true,
+              },
+            },
+          },
+        },
+        chatThread: true,
+      },
+    });
+
+    // Map to only include the "other" user's info
+    return matches.map((match) => {
+      const isUserA = match.userAId === userId;
+      const otherUser = isUserA ? match.userB : match.userA;
+      return {
+        id: match.id,
+        createdAt: match.createdAt,
+        chatThread: match.chatThread,
+        user: {
+          ...otherUser,
+          interests: otherUser.interests.map((i) => i.interest),
+        },
+      };
     });
   }
 

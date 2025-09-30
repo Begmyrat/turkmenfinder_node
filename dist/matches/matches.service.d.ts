@@ -4,7 +4,9 @@ export declare class MatchesService {
     private prisma;
     private notificationsService;
     constructor(prisma: PrismaService, notificationsService: NotificationsService);
-    findMatchesForUser(userId: string): import("@prisma/client").Prisma.PrismaPromise<({
+    findMatchesForUser(userId: string): Promise<{
+        id: string;
+        createdAt: Date;
         chatThread: {
             id: string;
             createdAt: Date;
@@ -16,12 +18,32 @@ export declare class MatchesService {
             unreadCountA: number;
             unreadCountB: number;
         } | null;
-    } & {
-        id: string;
-        userAId: string;
-        userBId: string;
-        createdAt: Date;
-    })[]>;
+        user: {
+            interests: {
+                id: string;
+                name: string;
+            }[];
+            id: string;
+            username: string;
+            email: string | null;
+            profile: {
+                id: string;
+                userId: string;
+                avatarPhotoId: string | null;
+                gender: string | null;
+                gender_looking_for: string | null;
+                bio: string | null;
+                city: string | null;
+                country: string | null;
+                lat: number | null;
+                lon: number | null;
+                university: string | null;
+                degree: string | null;
+                major: string | null;
+                birthday: Date | null;
+            } | null;
+        };
+    }[]>;
     swipe(userAId: string, userBId: string, liked: boolean, superLike?: boolean): Promise<{
         isMatch: boolean;
         match: {

@@ -48,8 +48,8 @@ export declare class UsersController {
         }[];
         interests: ({
             interest: {
-                name: string;
                 id: string;
+                name: string;
             };
         } & {
             userId: string;

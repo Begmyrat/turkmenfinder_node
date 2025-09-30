@@ -21,11 +21,12 @@ let MatchesController = class MatchesController {
     constructor(service) {
         this.service = service;
     }
-    findMatches(req) {
+    async findMatches(req) {
         const userId = req.user?.id;
         if (!userId)
             throw new Error('User not authenticated');
-        return this.service.findMatchesForUser(userId);
+        const response = await this.service.findMatchesForUser(userId);
+        return response;
     }
     async swipe(req, body) {
         const userAId = req.user?.id;
@@ -42,7 +43,7 @@ __decorate([
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], MatchesController.prototype, "findMatches", null);
 __decorate([
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),

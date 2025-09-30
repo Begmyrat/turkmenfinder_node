@@ -13,14 +13,21 @@ exports.CreateMessageDto = void 0;
 const class_validator_1 = require("class-validator");
 class CreateMessageDto {
     threadId;
+    matchId;
     senderId;
     content;
 }
 exports.CreateMessageDto = CreateMessageDto;
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateMessageDto.prototype, "threadId", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateMessageDto.prototype, "matchId", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)

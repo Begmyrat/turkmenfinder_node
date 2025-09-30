@@ -40,8 +40,8 @@ export declare class UsersService {
         }[];
         interests: ({
             interest: {
-                name: string;
                 id: string;
+                name: string;
             };
         } & {
             userId: string;

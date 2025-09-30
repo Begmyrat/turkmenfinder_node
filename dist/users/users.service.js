@@ -8,10 +8,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
+const node_geocoder_1 = __importDefault(require("node-geocoder"));
+const geocoder = (0, node_geocoder_1.default)({ provider: 'openstreetmap' });
 let UsersService = class UsersService {
     prisma;
     constructor(prisma) {
@@ -29,6 +34,13 @@ let UsersService = class UsersService {
     }
     async createUserWithProfile(data) {
         const { username, email, password, gender, gender_looking_for, birthday, lat, lon, interests, photos, } = data;
+        let city = undefined;
+        let country = undefined;
+        const res = await geocoder.reverse({ lat, lon });
+        if (res && res.length > 0) {
+            city = res[0].city || res[0].town || res[0].village;
+            country = res[0].country;
+        }
         return this.prisma.user.create({
             data: {
                 username,
@@ -41,6 +53,8 @@ let UsersService = class UsersService {
                         birthday: birthday ? new Date(birthday) : null,
                         lat,
                         lon,
+                        city,
+                        country,
                     },
                 },
                 interests: {

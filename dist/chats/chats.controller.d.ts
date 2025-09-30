@@ -3,28 +3,22 @@ import { CreateMessageDto } from './dto';
 export declare class ChatsController {
     private readonly service;
     constructor(service: ChatsService);
-    findThreads(userId: string): import("@prisma/client").Prisma.PrismaPromise<({
-        messages: {
-            id: string;
-            createdAt: Date;
-            threadId: string;
-            senderId: string;
-            content: string;
-            metadata: import("@prisma/client/runtime/library").JsonValue | null;
-            deliveredAt: Date | null;
-            readAt: Date | null;
-        }[];
-    } & {
+    findThreads(req: {
+        user?: {
+            id?: string;
+        };
+    }): Promise<{
         id: string;
-        createdAt: Date;
-        matchId: string | null;
-        participantAId: string;
-        participantBId: string;
         lastMessage: string | null;
         lastMessageAt: Date | null;
-        unreadCountA: number;
-        unreadCountB: number;
-    })[]>;
+        unreadCount: number;
+        otherUser: {
+            id: string;
+            username: string;
+            avatar: string | null;
+        };
+        lastMessageContent: string;
+    }[]>;
     findMessages(threadId: string): import("@prisma/client").Prisma.PrismaPromise<{
         id: string;
         createdAt: Date;
@@ -35,7 +29,7 @@ export declare class ChatsController {
         deliveredAt: Date | null;
         readAt: Date | null;
     }[]>;
-    createMessage(dto: CreateMessageDto): import("@prisma/client").Prisma.Prisma__MessageClient<{
+    createMessage(dto: CreateMessageDto): Promise<{
         id: string;
         createdAt: Date;
         threadId: string;
@@ -44,5 +38,5 @@ export declare class ChatsController {
         metadata: import("@prisma/client/runtime/library").JsonValue | null;
         deliveredAt: Date | null;
         readAt: Date | null;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+    }>;
 }

@@ -8,10 +8,11 @@ export class MatchesController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  findMatches(@Req() req: { user?: { id?: string } }) {
+  async findMatches(@Req() req: { user?: { id?: string } }) {
     const userId = req.user?.id;
     if (!userId) throw new Error('User not authenticated');
-    return this.service.findMatchesForUser(userId);
+    const response = await this.service.findMatchesForUser(userId);
+    return response;
   }
 
   @UseGuards(AuthGuard('jwt'))

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Param, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  Body,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { ChatsService } from './chats.service';
 import { CreateMessageDto } from './dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -8,8 +16,10 @@ export class ChatsController {
   constructor(private readonly service: ChatsService) {}
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('threads/:userId')
-  findThreads(@Param('userId') userId: string) {
+  @Get()
+  findThreads(@Req() req: { user?: { id?: string } }) {
+    const userId = req.user?.id;
+    if (!userId) throw new Error('User not authenticated');
     return this.service.findThreadsForUser(userId);
   }
 

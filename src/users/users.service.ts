@@ -3,6 +3,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Profile, User } from '@prisma/client';
 import { SignUpDto } from 'src/auth/dto';
 import { EditProfileDto } from './dto';
+import NodeGeocoder from 'node-geocoder';
+
+const geocoder = NodeGeocoder({ provider: 'openstreetmap' });
 
 @Injectable()
 export class UsersService {
@@ -34,6 +37,15 @@ export class UsersService {
       photos,
     } = data;
 
+    // Reverse geocode to get city and country
+    let city: string | undefined = undefined;
+    let country: string | undefined = undefined;
+    const res = await geocoder.reverse({ lat, lon });
+    if (res && res.length > 0) {
+      city = res[0].city || res[0].town || res[0].village;
+      country = res[0].country;
+    }
+
     return this.prisma.user.create({
       data: {
         username,
@@ -46,6 +58,8 @@ export class UsersService {
             birthday: birthday ? new Date(birthday) : null,
             lat,
             lon,
+            city,
+            country,
           },
         },
         interests: {
