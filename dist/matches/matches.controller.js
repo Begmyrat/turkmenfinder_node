@@ -21,19 +21,38 @@ let MatchesController = class MatchesController {
     constructor(service) {
         this.service = service;
     }
-    findMatches(userId) {
+    findMatches(req) {
+        const userId = req.user?.id;
+        if (!userId)
+            throw new Error('User not authenticated');
         return this.service.findMatchesForUser(userId);
+    }
+    async swipe(req, body) {
+        const userAId = req.user?.id;
+        if (!userAId)
+            throw new Error('User not authenticated');
+        const { userBId, liked, superLike = false } = body;
+        return this.service.swipe(userAId, userBId, liked, superLike);
     }
 };
 exports.MatchesController = MatchesController;
 __decorate([
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
-    (0, common_1.Get)(':userId'),
-    __param(0, (0, common_1.Param)('userId')),
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], MatchesController.prototype, "findMatches", null);
+__decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    (0, common_1.Post)('swipe'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], MatchesController.prototype, "swipe", null);
 exports.MatchesController = MatchesController = __decorate([
     (0, common_1.Controller)('matches'),
     __metadata("design:paramtypes", [matches_service_1.MatchesService])

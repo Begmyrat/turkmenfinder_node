@@ -109,6 +109,7 @@ model Swipe {
   swiped    User     @relation("swipes_received", fields: [swipedId], references: [id], onDelete: Cascade)
   swipedId  String
   liked     Boolean
+  superLike Boolean  @default(false)
   createdAt DateTime @default(now())
 
   @@unique([swiperId, swipedId])
@@ -171,6 +172,7 @@ enum NotificationType {
   CHAT
   MATCH
   SYSTEM
+  SUPER_LIKE
 }
 
 model RefreshToken {

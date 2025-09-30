@@ -22,6 +22,11 @@ let UsersService = class UsersService {
             where: { email },
         });
     }
+    getProfile(userId) {
+        return this.prisma.profile.findUnique({
+            where: { userId },
+        });
+    }
     async createUserWithProfile(data) {
         const { username, email, password, gender, gender_looking_for, birthday, lat, lon, interests, photos, } = data;
         return this.prisma.user.create({
@@ -85,12 +90,15 @@ let UsersService = class UsersService {
             },
         });
     }
-    async discoverUsers({ currentUserId, page = 1, limit = 20, }) {
+    async discoverUsers({ userId, gender, page = 1, limit = 20, }) {
         const offset = (page - 1) * limit;
         return this.prisma.user.findMany({
             where: {
-                id: { not: currentUserId },
+                id: { not: userId },
                 isActive: true,
+                profile: {
+                    gender: gender,
+                },
             },
             include: {
                 profile: true,

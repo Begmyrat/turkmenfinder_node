@@ -16,7 +16,7 @@ exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const passport_1 = require("@nestjs/passport");
-const edit_profile_dto_1 = require("./dto/edit_profile_dto");
+const dto_1 = require("./dto");
 let UsersController = class UsersController {
     usersService;
     constructor(usersService) {
@@ -29,14 +29,14 @@ let UsersController = class UsersController {
         }
         return this.usersService.findById(userId);
     }
-    async discover(req, lat, lon, gender, radius, page, limit) {
-        const currentUserId = req.user?.id ?? 'CURRENT_USER_ID';
+    async discover(req, page, limit) {
+        const userId = req.user?.id;
+        if (!userId)
+            throw new Error('User not authenticated');
+        const profile = await this.usersService.getProfile(userId);
         return this.usersService.discoverUsers({
-            currentUserId,
-            gender,
-            lat: parseFloat(lat),
-            lon: parseFloat(lon),
-            radius: radius ? parseInt(radius) : 50,
+            userId: userId,
+            gender: profile?.gender_looking_for || '',
             page: page ? parseInt(page) : 1,
             limit: limit ? parseInt(limit) : 20,
         });
@@ -63,14 +63,10 @@ __decorate([
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.Get)('discover'),
     __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Query)('lat')),
-    __param(2, (0, common_1.Query)('lon')),
-    __param(3, (0, common_1.Query)('gender')),
-    __param(4, (0, common_1.Query)('radius')),
-    __param(5, (0, common_1.Query)('page')),
-    __param(6, (0, common_1.Query)('limit')),
+    __param(1, (0, common_1.Query)('page')),
+    __param(2, (0, common_1.Query)('limit')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, String, String, String, String, String]),
+    __metadata("design:paramtypes", [Object, String, String]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "discover", null);
 __decorate([
@@ -79,7 +75,7 @@ __decorate([
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, edit_profile_dto_1.EditProfileDto]),
+    __metadata("design:paramtypes", [Object, dto_1.EditProfileDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "editProfile", null);
 exports.UsersController = UsersController = __decorate([

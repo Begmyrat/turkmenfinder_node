@@ -27,18 +27,41 @@ let MatchesService = class MatchesService {
             include: { chatThread: true },
         });
     }
-    async swipe(userAId, userBId, liked) {
+    async swipe(userAId, userBId, liked, superLike = false) {
         await this.prisma.swipe.upsert({
             where: { swiperId_swipedId: { swiperId: userAId, swipedId: userBId } },
-            update: { liked },
-            create: { swiperId: userAId, swipedId: userBId, liked },
+            update: { liked, superLike },
+            create: { swiperId: userAId, swipedId: userBId, liked, superLike },
         });
+        if (superLike) {
+            await this.notificationsService.create({
+                userId: userBId,
+                type: client_1.NotificationType.SUPER_LIKE,
+                payload: { from: userAId },
+            });
+        }
         const reciprocal = await this.prisma.swipe.findUnique({
             where: { swiperId_swipedId: { swiperId: userBId, swipedId: userAId } },
         });
         if (liked && reciprocal && reciprocal.liked) {
             const match = await this.prisma.match.create({
                 data: { userAId, userBId },
+                include: {
+                    userA: {
+                        select: {
+                            id: true,
+                            username: true,
+                            profile: { select: { avatarPhotoId: true } },
+                        },
+                    },
+                    userB: {
+                        select: {
+                            id: true,
+                            username: true,
+                            profile: { select: { avatarPhotoId: true } },
+                        },
+                    },
+                },
             });
             await this.notificationsService.create({
                 userId: userAId,
@@ -50,7 +73,22 @@ let MatchesService = class MatchesService {
                 type: client_1.NotificationType.MATCH,
                 payload: { matchId: match.id, with: userAId },
             });
-            return { match, isMatch: true };
+            return {
+                isMatch: true,
+                match: {
+                    id: match.id,
+                    userA: {
+                        id: match.userA.id,
+                        username: match.userA.username,
+                        avatar: match.userA.profile?.avatarPhotoId ?? null,
+                    },
+                    userB: {
+                        id: match.userB.id,
+                        username: match.userB.username,
+                        avatar: match.userB.profile?.avatarPhotoId ?? null,
+                    },
+                },
+            };
         }
         return { isMatch: false };
     }

@@ -1,19 +1,17 @@
 import { PrismaService } from 'src/prisma/prisma.service';
-import { User } from '@prisma/client';
+import { Profile, User } from '@prisma/client';
 import { SignUpDto } from 'src/auth/dto';
-import { EditProfileDto } from './dto/edit_profile_dto';
+import { EditProfileDto } from './dto';
 export declare class UsersService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     findByEmail(email: string): Promise<User | null>;
+    getProfile(userId: string): Promise<Profile | null>;
     createUserWithProfile(data: SignUpDto): Promise<User | null>;
     findById(id: string): Promise<User | null>;
-    discoverUsers({ currentUserId, page, limit, }: {
-        currentUserId: string;
-        gender?: string;
-        lat: number;
-        lon: number;
-        radius?: number;
+    discoverUsers({ userId, gender, page, limit, }: {
+        userId: string;
+        gender: string;
         page?: number;
         limit?: number;
     }): Promise<({
@@ -42,8 +40,8 @@ export declare class UsersService {
         }[];
         interests: ({
             interest: {
-                id: string;
                 name: string;
+                id: string;
             };
         } & {
             userId: string;

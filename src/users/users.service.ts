@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { User } from '@prisma/client';
+import { Profile, User } from '@prisma/client';
 import { SignUpDto } from 'src/auth/dto';
-import { EditProfileDto } from './dto/edit_profile_dto';
+import { EditProfileDto } from './dto';
 
 @Injectable()
 export class UsersService {
@@ -11,6 +11,12 @@ export class UsersService {
   findByEmail(email: string): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: { email },
+    });
+  }
+
+  getProfile(userId: string): Promise<Profile | null> {
+    return this.prisma.profile.findUnique({
+      where: { userId },
     });
   }
 
@@ -92,19 +98,19 @@ export class UsersService {
   }
 
   async discoverUsers({
-    currentUserId,
-    // gender,
+    userId,
+    gender,
     // lat,
     // lon,
     // radius = 50, // kilometers
     page = 1,
     limit = 20,
   }: {
-    currentUserId: string;
-    gender?: string;
-    lat: number;
-    lon: number;
-    radius?: number;
+    userId: string;
+    gender: string;
+    // lat: number;
+    // lon: number;
+    // radius: number;
     page?: number;
     limit?: number;
   }) {
@@ -115,13 +121,13 @@ export class UsersService {
 
     return this.prisma.user.findMany({
       where: {
-        id: { not: currentUserId },
+        id: { not: userId },
         isActive: true,
-        // profile: {
-        //   gender: gender ? gender : undefined,
-        //   lat: { not: null },
-        //   lon: { not: null },
-        // },
+        profile: {
+          gender: gender,
+          // lat: lat,
+          // lon: lon,
+        },
         // Add more filters as needed (e.g., exclude already swiped/matched users)
       },
       include: {

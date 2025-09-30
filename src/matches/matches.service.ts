@@ -17,13 +17,27 @@ export class MatchesService {
     });
   }
 
-  async swipe(userAId: string, userBId: string, liked: boolean) {
+  async swipe(
+    userAId: string,
+    userBId: string,
+    liked: boolean,
+    superLike: boolean = false,
+  ) {
     // Record the swipe
     await this.prisma.swipe.upsert({
       where: { swiperId_swipedId: { swiperId: userAId, swipedId: userBId } },
-      update: { liked },
-      create: { swiperId: userAId, swipedId: userBId, liked },
+      update: { liked, superLike },
+      create: { swiperId: userAId, swipedId: userBId, liked, superLike },
     });
+
+    // Notify if superLike
+    if (superLike) {
+      await this.notificationsService.create({
+        userId: userBId,
+        type: NotificationType.SUPER_LIKE,
+        payload: { from: userAId },
+      });
+    }
 
     // Check if userB liked userA
     const reciprocal = await this.prisma.swipe.findUnique({
@@ -34,6 +48,22 @@ export class MatchesService {
       // Create a match
       const match = await this.prisma.match.create({
         data: { userAId, userBId },
+        include: {
+          userA: {
+            select: {
+              id: true,
+              username: true,
+              profile: { select: { avatarPhotoId: true } },
+            },
+          },
+          userB: {
+            select: {
+              id: true,
+              username: true,
+              profile: { select: { avatarPhotoId: true } },
+            },
+          },
+        },
       });
 
       // Send notifications to both users
@@ -48,7 +78,22 @@ export class MatchesService {
         payload: { matchId: match.id, with: userAId },
       });
 
-      return { match, isMatch: true };
+      return {
+        isMatch: true,
+        match: {
+          id: match.id,
+          userA: {
+            id: match.userA.id,
+            username: match.userA.username,
+            avatar: match.userA.profile?.avatarPhotoId ?? null,
+          },
+          userB: {
+            id: match.userB.id,
+            username: match.userB.username,
+            avatar: match.userB.profile?.avatarPhotoId ?? null,
+          },
+        },
+      };
     }
 
     return { isMatch: false };

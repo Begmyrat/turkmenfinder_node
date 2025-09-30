@@ -9,8 +9,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
-import type { Request } from 'express';
-import { EditProfileDto } from './dto/edit_profile_dto';
+import { EditProfileDto } from './dto';
 
 @Controller('users')
 export class UsersController {
@@ -30,20 +29,20 @@ export class UsersController {
   @Get('discover')
   async discover(
     @Req() req: { user?: { id?: string } },
-    @Query('lat') lat: string,
-    @Query('lon') lon: string,
-    @Query('gender') gender?: string,
-    @Query('radius') radius?: string,
     @Query('page') page?: string,
     @Query('limit') limit?: string,
   ) {
-    const currentUserId: string = req.user?.id ?? 'CURRENT_USER_ID';
+    const userId = req.user?.id;
+    if (!userId) throw new Error('User not authenticated');
+    // const user = await this.usersService.findById(userId);
+    const profile = await this.usersService.getProfile(userId);
+
     return this.usersService.discoverUsers({
-      currentUserId,
-      gender,
-      lat: parseFloat(lat),
-      lon: parseFloat(lon),
-      radius: radius ? parseInt(radius) : 50,
+      userId: userId,
+      gender: profile?.gender_looking_for || '',
+      // lat: user?.profile?.lat,
+      // lon: user?.profile?.lon,
+      // radius: user?.settings?.maxDistance ?? 50,
       page: page ? parseInt(page) : 1,
       limit: limit ? parseInt(limit) : 20,
     });

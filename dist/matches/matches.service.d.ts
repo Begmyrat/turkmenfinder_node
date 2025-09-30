@@ -18,18 +18,25 @@ export declare class MatchesService {
         } | null;
     } & {
         id: string;
-        createdAt: Date;
         userAId: string;
         userBId: string;
+        createdAt: Date;
     })[]>;
-    swipe(userAId: string, userBId: string, liked: boolean): Promise<{
+    swipe(userAId: string, userBId: string, liked: boolean, superLike?: boolean): Promise<{
+        isMatch: boolean;
         match: {
             id: string;
-            createdAt: Date;
-            userAId: string;
-            userBId: string;
+            userA: {
+                id: string;
+                username: string;
+                avatar: string | null;
+            };
+            userB: {
+                id: string;
+                username: string;
+                avatar: string | null;
+            };
         };
-        isMatch: boolean;
     } | {
         isMatch: boolean;
         match?: undefined;

@@ -2,7 +2,11 @@ import { MatchesService } from './matches.service';
 export declare class MatchesController {
     private readonly service;
     constructor(service: MatchesService);
-    findMatches(userId: string): import("@prisma/client").Prisma.PrismaPromise<({
+    findMatches(req: {
+        user?: {
+            id?: string;
+        };
+    }): import("@prisma/client").Prisma.PrismaPromise<({
         chatThread: {
             id: string;
             createdAt: Date;
@@ -16,8 +20,35 @@ export declare class MatchesController {
         } | null;
     } & {
         id: string;
-        createdAt: Date;
         userAId: string;
         userBId: string;
+        createdAt: Date;
     })[]>;
+    swipe(req: {
+        user?: {
+            id?: string;
+        };
+    }, body: {
+        userBId: string;
+        liked: boolean;
+        superLike?: boolean;
+    }): Promise<{
+        isMatch: boolean;
+        match: {
+            id: string;
+            userA: {
+                id: string;
+                username: string;
+                avatar: string | null;
+            };
+            userB: {
+                id: string;
+                username: string;
+                avatar: string | null;
+            };
+        };
+    } | {
+        isMatch: boolean;
+        match?: undefined;
+    }>;
 }

@@ -1,5 +1,5 @@
 import { UsersService } from './users.service';
-import { EditProfileDto } from './dto/edit_profile_dto';
+import { EditProfileDto } from './dto';
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
@@ -22,7 +22,7 @@ export declare class UsersController {
         user?: {
             id?: string;
         };
-    }, lat: string, lon: string, gender?: string, radius?: string, page?: string, limit?: string): Promise<({
+    }, page?: string, limit?: string): Promise<({
         profile: {
             id: string;
             userId: string;
@@ -48,8 +48,8 @@ export declare class UsersController {
         }[];
         interests: ({
             interest: {
-                id: string;
                 name: string;
+                id: string;
             };
         } & {
             userId: string;
