@@ -22,28 +22,28 @@ export declare class MatchesController {
         } | null;
         user: {
             interests: {
-                id: string;
                 name: string;
-            }[];
-            id: string;
-            username: string;
-            email: string | null;
-            profile: {
                 id: string;
-                userId: string;
-                avatarPhotoId: string | null;
+            }[];
+            email: string | null;
+            username: string;
+            profile: {
                 gender: string | null;
                 gender_looking_for: string | null;
-                bio: string | null;
-                city: string | null;
-                country: string | null;
+                birthday: Date | null;
                 lat: number | null;
                 lon: number | null;
+                city: string | null;
+                country: string | null;
+                bio: string | null;
                 university: string | null;
                 degree: string | null;
                 major: string | null;
-                birthday: Date | null;
+                id: string;
+                userId: string;
+                avatarPhotoId: string | null;
             } | null;
+            id: string;
         };
     }[]>;
     swipe(req: {

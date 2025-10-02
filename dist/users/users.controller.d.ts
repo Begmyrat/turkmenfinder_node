@@ -8,9 +8,9 @@ export declare class UsersController {
             id?: string;
         };
     }): Promise<{
-        id: string;
-        username: string;
         email: string | null;
+        username: string;
+        id: string;
         passwordHash: string | null;
         isActive: boolean;
         isVerified: boolean;
@@ -23,22 +23,15 @@ export declare class UsersController {
             id?: string;
         };
     }, page?: string, limit?: string): Promise<({
-        profile: {
-            id: string;
+        interests: ({
+            interest: {
+                name: string;
+                id: string;
+            };
+        } & {
             userId: string;
-            avatarPhotoId: string | null;
-            gender: string | null;
-            gender_looking_for: string | null;
-            bio: string | null;
-            city: string | null;
-            country: string | null;
-            lat: number | null;
-            lon: number | null;
-            university: string | null;
-            degree: string | null;
-            major: string | null;
-            birthday: Date | null;
-        } | null;
+            interestId: string;
+        })[];
         photos: {
             id: string;
             createdAt: Date;
@@ -46,19 +39,26 @@ export declare class UsersController {
             s3Key: string;
             ordering: number;
         }[];
-        interests: ({
-            interest: {
-                id: string;
-                name: string;
-            };
-        } & {
+        profile: {
+            gender: string | null;
+            gender_looking_for: string | null;
+            birthday: Date | null;
+            lat: number | null;
+            lon: number | null;
+            city: string | null;
+            country: string | null;
+            bio: string | null;
+            university: string | null;
+            degree: string | null;
+            major: string | null;
+            id: string;
             userId: string;
-            interestId: string;
-        })[];
+            avatarPhotoId: string | null;
+        } | null;
     } & {
-        id: string;
-        username: string;
         email: string | null;
+        username: string;
+        id: string;
         passwordHash: string | null;
         isActive: boolean;
         isVerified: boolean;
@@ -71,9 +71,9 @@ export declare class UsersController {
             id?: string;
         };
     }, dto: EditProfileDto): Promise<{
-        id: string;
-        username: string;
         email: string | null;
+        username: string;
+        id: string;
         passwordHash: string | null;
         isActive: boolean;
         isVerified: boolean;

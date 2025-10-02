@@ -11,9 +11,9 @@ export declare class JwtStrategy extends JwtStrategy_base {
         sub: string;
         email: string;
     }): Promise<{
-        id: string;
-        username: string;
         email: string | null;
+        username: string;
+        id: string;
         isActive: boolean;
         isVerified: boolean;
         createdAt: Date;

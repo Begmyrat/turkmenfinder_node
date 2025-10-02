@@ -14,13 +14,13 @@ export declare class ChatsGateway implements OnGatewayConnection, OnGatewayDisco
         content: string;
     }, client: Socket): Promise<{
         id: string;
-        content: string;
-        metadata: import("@prisma/client/runtime/library").JsonValue | null;
         createdAt: Date;
-        deliveredAt: Date | null;
-        readAt: Date | null;
         threadId: string;
         senderId: string;
+        content: string;
+        metadata: import("@prisma/client/runtime/library").JsonValue | null;
+        deliveredAt: Date | null;
+        readAt: Date | null;
     }>;
     handleJoinThread(data: {
         threadId: string;
